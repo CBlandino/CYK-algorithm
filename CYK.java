@@ -9,7 +9,7 @@ public class CYK
         try
         {
             // Read input file
-            String filePath = "src/input.txt";
+            String filePath = "input.txt";
             List<String> grammarLines = readGrammarFromFile(filePath);
 
             // Last line is the input string

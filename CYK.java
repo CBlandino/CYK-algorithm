@@ -4,49 +4,68 @@ import java.util.*;
 public class CYK
 {
 
-    public static void main(String[] args) 
-    {
-        try
-        {
-            // Read input file
-            String filePath = "input.txt";
-            List<String> grammarLines = readGrammarFromFile(filePath);
+	public static void main(String[] args) 
+	{
+	    try 
+	    {
+	        String filePath = "src/input.txt";
+	        List<List<String>> grammars = readMultipleGrammarsFromFile(filePath);
 
-            // Last line is the input string
-            String inputString = grammarLines.remove(grammarLines.size() - 1); 
+	        for (List<String> grammarLines : grammars)
+	        {
+	            String inputString = grammarLines.remove(grammarLines.size() - 1); 
+	            Map<String, List<String>> grammar = parseGrammar(grammarLines);
 
-            // Parse grammar
-            Map<String, List<String>> grammar = parseGrammar(grammarLines);
-            System.out.println("Parsed Grammar: " + grammar); // Debugging parsed grammar
+	            System.out.println("Parsed Grammar: " + grammar); 
+	            System.out.println("Input String: " + inputString);
 
-            // Perform CYK Algorithm
-            boolean result = cykAlgorithm(grammar, inputString);
+	            boolean result = cykAlgorithm(grammar, inputString);
+	            System.out.println("String \"" + inputString + "\" is " + (result ? "accepted" : "not accepted") + " by the grammar.");
+	            System.out.println();
+	        }
+	    } 
+	    
+	    catch (IOException e)
+	    {
+	        System.err.println("Error reading input file: " + e.getMessage());
+	    }
+	}
 
-            // Output result
-            System.out.println("String \"" + inputString + "\" is " + (result ? "accepted" : "not accepted") + " by the grammar.");
 
-        }
-        
-        catch (IOException e) 
-        {
-            System.err.println("Error reading input file: " + e.getMessage());
-        }
-    }
-
-    private static List<String> readGrammarFromFile(String filePath) throws IOException
+    private static List<List<String>> readMultipleGrammarsFromFile(String filePath) throws IOException 
     {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        List<String> lines = new ArrayList<>();
+        List<List<String>> grammars = new ArrayList<>();
+        List<String> currentGrammar = new ArrayList<>();
         String line;
 
-        while ((line = reader.readLine()) != null && !line.trim().isEmpty()) 
+        while ((line = reader.readLine()) != null) 
         {
-            lines.add(line.trim());
+            if (line.trim().isEmpty()) 
+            {
+                if (!currentGrammar.isEmpty())
+                {
+                    grammars.add(new ArrayList<>(currentGrammar));
+                    currentGrammar.clear();
+                }
+            }
+            
+            else 
+            {
+                currentGrammar.add(line.trim());
+            }
+        }
+
+        if (!currentGrammar.isEmpty()) 
+        {
+        	// Add the last grammar if the file doesn't end with a blank line
+            grammars.add(currentGrammar);
         }
 
         reader.close();
-        return lines;
+        return grammars;
     }
+
 
     private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
     {
@@ -74,9 +93,9 @@ public class CYK
         if (n == 0) return false; 
 
         Set<String>[][] dp = initializeDPTable(grammar, inputString);
-        System.out.println("Initial DP Table (Single Characters):");
         
         // Debugging DP table initialization
+        System.out.println("Initial DP Table (Single Characters):");
         printDPTable(dp, n);
 
         for (int length = 2; length <= n; length++)
@@ -93,8 +112,8 @@ public class CYK
             }
         }
 
-        System.out.println("Final DP Table:");
         // Debugging final DP table
+        System.out.println("Final DP Table:");
         printDPTable(dp, n);
 
         return dp[0][n - 1].contains("S");
@@ -137,7 +156,7 @@ public class CYK
                         dp[i][j].add(nonTerminal);
                         
                         // Debugging addition
-                        System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
+                        // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
                     }
                 }
             }

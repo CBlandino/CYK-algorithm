@@ -7,4 +7,4 @@ What it does:
 This CYK program will be able to read context-free grammar from a file and generate the corresponding parse table for a given input string. 
 
 How to run the program:
-Install the .java file from Github. Then use any compiler to run the program. We used Eclipse for our program. Besides java, there are no additional dependancies. The GitHub also includes an example problem. Please make sure to use the ‘input.txt’ included in the GitHub for any testing you want to do. It will produce the table output. 
+Install the .java file from GitHub. Then use any compiler to run the program. We used Eclipse for our program. Besides Java, there are no additional dependencies. The GitHub also includes an example problem. Please make sure to use the ‘input.txt’ included in the GitHub for any testing you want to do. It will produce the table output. 

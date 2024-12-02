@@ -67,47 +67,47 @@ public class CYK
 	}
 
 
-private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
-	{
-    Map<String, List<String>> grammar = new HashMap<>();
-
-    for (String rule : grammarLines) 
-    {
-        String[] parts = rule.split("->");
-        String nonTerminal = parts[0].trim();
-        String[] productions = parts[1].trim().split("\\|");
-
-        grammar.putIfAbsent(nonTerminal, new ArrayList<>());
-
-        for (String production : productions) 
-	{
-            grammar.get(nonTerminal).add(production.trim());
-        }
-    }
-
-    // Process multi-character terminals
-    for (String nonTerminal : new HashSet<>(grammar.keySet())) 
-    {
-        List<String> updatedProductions = new ArrayList<>();
-
-        for (String production : grammar.get(nonTerminal)) 
-	{
-            if (production.matches("[a-zA-Z]+"))
-	    { 
-		// Match multi-character terminals
-                updatedProductions.add(production);
-            } 
-	    else 
+	private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
+		{
+	    Map<String, List<String>> grammar = new HashMap<>();
+	
+	    for (String rule : grammarLines) 
 	    {
-                updatedProductions.add(production);
-            }
-        }
-
-        grammar.put(nonTerminal, updatedProductions);
-    }
-
-    return grammar;
-}
+	        String[] parts = rule.split("->");
+	        String nonTerminal = parts[0].trim();
+	        String[] productions = parts[1].trim().split("\\|");
+	
+	        grammar.putIfAbsent(nonTerminal, new ArrayList<>());
+	
+	        for (String production : productions) 
+		{
+	            grammar.get(nonTerminal).add(production.trim());
+	        }
+	    }
+	
+	    // Process multi-character terminals
+	    for (String nonTerminal : new HashSet<>(grammar.keySet())) 
+	    {
+	        List<String> updatedProductions = new ArrayList<>();
+	
+	        for (String production : grammar.get(nonTerminal)) 
+		{
+	            if (production.matches("[a-zA-Z]+"))
+		    { 
+			// Match multi-character terminals
+	                updatedProductions.add(production);
+	            } 
+		    else 
+		    {
+	                updatedProductions.add(production);
+	            }
+	        }
+	
+	        grammar.put(nonTerminal, updatedProductions);
+	    }
+	
+	    return grammar;
+	}
 
     private static boolean cykAlgorithm(Map<String, List<String>> grammar, String inputString) 
     {
@@ -156,7 +156,7 @@ private static Map<String, List<String>> parseGrammar(List<String> grammarLines)
 	            for (String production : grammar.get(nonTerminal))
 			    {
 	                if (production.equals(symbol)) 
-	                {
+			{
 	                    dp[i][i].add(nonTerminal);
 	                }
 	            }

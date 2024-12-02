@@ -32,135 +32,135 @@ public class CYK
 	}
 
 
-    private static List<List<String>> readMultipleGrammarsFromFile(String filePath) throws IOException 
-    {
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        List<List<String>> grammars = new ArrayList<>();
-        List<String> currentGrammar = new ArrayList<>();
+	private static List<List<String>> readMultipleGrammarsFromFile(String filePath) throws IOException 
+   	{
+		BufferedReader reader = new BufferedReader(new FileReader(filePath));
+	    List<List<String>> grammars = new ArrayList<>();
+ 		List<String> currentGrammar = new ArrayList<>();
         String line;
-
-        while ((line = reader.readLine()) != null) 
-        {
+	
+	    while ((line = reader.readLine()) != null) 
+	    {
             if (line.trim().isEmpty()) 
-            {
-                if (!currentGrammar.isEmpty())
-                {
+			{
+	            if (!currentGrammar.isEmpty())
+	            {
                     grammars.add(new ArrayList<>(currentGrammar));
-                    currentGrammar.clear();
-                }
+	                currentGrammar.clear();
+	            }
+	        }
+	            
+	        else 
+	        {
+	            currentGrammar.add(line.trim());
             }
-            
-            else 
-            {
-                currentGrammar.add(line.trim());
-            }
-        }
-
-        if (!currentGrammar.isEmpty()) 
-        {
-        	// Add the last grammar if the file doesn't end with a blank line
-            grammars.add(currentGrammar);
-        }
-
-        reader.close();
-        return grammars;
-    }
+		}
+	
+	    if (!currentGrammar.isEmpty()) 
+	    {
+			// Add the last grammar if the file doesn't end with a blank line
+			grammars.add(currentGrammar);
+	    }
+	
+	    reader.close();
+	    return grammars;
+	}
 
 
-    private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
-    {
-        Map<String, List<String>> grammar = new HashMap<>();
-
-        for (String rule : grammarLines)
-        {
-            String[] parts = rule.split("->");
-            String nonTerminal = parts[0].trim();
-            String[] productions = parts[1].trim().split("\\|");
-
-            grammar.putIfAbsent(nonTerminal, new ArrayList<>());
-
-            for (String production : productions) 
-            {
-                grammar.get(nonTerminal).add(production.trim());
-            }
-        }
-        return grammar;
-    }
+	private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
+	{
+		Map<String, List<String>> grammar = new HashMap<>();
+	
+		for (String rule : grammarLines)
+		{
+	        String[] parts = rule.split("->");
+	    	String nonTerminal = parts[0].trim();
+	    	String[] productions = parts[1].trim().split("\\|");
+	
+        	grammar.putIfAbsent(nonTerminal, new ArrayList<>());
+	
+	        for (String production : productions) 
+	    	{
+	    		grammar.get(nonTerminal).add(production.trim());
+        	}
+		}
+	    return grammar;
+	}
 
     private static boolean cykAlgorithm(Map<String, List<String>> grammar, String inputString) 
     {
         int n = inputString.length();
-        if (n == 0) return false; 
+    	if (n == 0) return false; 
 
-        Set<String>[][] dp = initializeDPTable(grammar, inputString);
+    	Set<String>[][] dp = initializeDPTable(grammar, inputString);
         
-        // Debugging DP table initialization
-        System.out.println("Initial DP Table (Single Characters):");
+		// Debugging DP table initialization
+	    System.out.println("Initial DP Table (Single Characters):");
         printDPTable(dp, n);
 
-        for (int length = 2; length <= n; length++)
-        {
-            for (int i = 0; i <= n - length; i++) 
+	    for (int length = 2; length <= n; length++)
+	    {
+			for (int i = 0; i <= n - length; i++) 
             {
-                int j = i + length - 1;
-                dp[i][j] = new HashSet<>();
+	        	int j = i + length - 1;
+	            dp[i][j] = new HashSet<>();
+	
+	            for (int k = i; k < j; k++)
+	            {
+	                addNonTerminals(grammar, dp, i, j, k);
+	            }
+	        }
+	    }
 
-                for (int k = i; k < j; k++)
-                {
-                    addNonTerminals(grammar, dp, i, j, k);
-                }
-            }
-        }
-
-        // Debugging final DP table
-        System.out.println("Final DP Table:");
+	    // Debugging final DP table
+	    System.out.println("Final DP Table:");
         printDPTable(dp, n);
+	
+	    return dp[0][n - 1].contains("S");
+	}
 
-        return dp[0][n - 1].contains("S");
-    }
+	private static Set<String>[][] initializeDPTable(Map<String, List<String>> grammar, String inputString)
+	{
+		int n = inputString.length();
+		Set<String>[][] dp = new HashSet[n][n];
+	
+		for (int i = 0; i < n; i++)
+		{
+	        dp[i][i] = new HashSet<>();
+	    	String symbol = String.valueOf(inputString.charAt(i));
+	
+	        for (String nonTerminal : grammar.keySet()) 
+	    	{
+	    		if (grammar.get(nonTerminal).contains(symbol)) 
+        		{
+		            dp[i][i].add(nonTerminal);
+	        	}
+	    	}
+		}
+	    return dp;
+	}
 
-    private static Set<String>[][] initializeDPTable(Map<String, List<String>> grammar, String inputString)
-    {
-        int n = inputString.length();
-        Set<String>[][] dp = new HashSet[n][n];
-
-        for (int i = 0; i < n; i++)
-        {
-            dp[i][i] = new HashSet<>();
-            String symbol = String.valueOf(inputString.charAt(i));
-
-            for (String nonTerminal : grammar.keySet()) 
-            {
-                if (grammar.get(nonTerminal).contains(symbol)) 
-                {
-                    dp[i][i].add(nonTerminal);
-                }
-            }
-        }
-        return dp;
-    }
-
-    private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k) 
-    {
+	private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k) 
+	{
         for (String nonTerminal : grammar.keySet()) 
-        {
-            for (String production : grammar.get(nonTerminal)) 
-            {
+    	{
+			for (String production : grammar.get(nonTerminal)) 
+        	{
                 if (production.length() == 2) 
-                {
-                    String left = String.valueOf(production.charAt(0));
-                    String right = String.valueOf(production.charAt(1));
+        		{
+		            String left = String.valueOf(production.charAt(0));
+		        	String right = String.valueOf(production.charAt(1));
 
-                    if (dp[i][k].contains(left) && dp[k + 1][j].contains(right))
-                    {
-                        dp[i][j].add(nonTerminal);
+                		if (dp[i][k].contains(left) && dp[k + 1][j].contains(right))
+                    	{
+                		dp[i][j].add(nonTerminal);
                         
                         // Debugging addition
-                        // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
-                    }
-                }
-            }
-        }
+		                // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
+                		}
+        		}
+    		}
+		}
     }
 
     private static void printDPTable(Set<String>[][] dp, int n)

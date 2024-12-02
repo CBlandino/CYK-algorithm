@@ -52,26 +52,26 @@ public class CYK
 	private static List<List<String>> readMultipleGrammarsFromFile(String filePath) throws IOException 
    	{
 		BufferedReader reader = new BufferedReader(new FileReader(filePath));
-	    List<List<String>> grammars = new ArrayList<>();
+		List<List<String>> grammars = new ArrayList<>();
  		List<String> currentGrammar = new ArrayList<>();
         String line;
 	
-	    while ((line = reader.readLine()) != null) 
-	    {
-            if (line.trim().isEmpty()) 
-			{
-	            if (!currentGrammar.isEmpty())
-	            {
-                    grammars.add(new ArrayList<>(currentGrammar));
-	                currentGrammar.clear();
-	            }
-	        }
+		    while ((line = reader.readLine()) != null) 
+		    {
+	            if (line.trim().isEmpty()) 
+				{
+		            if (!currentGrammar.isEmpty())
+		            {
+	                    grammars.add(new ArrayList<>(currentGrammar));
+		                currentGrammar.clear();
+		            }
+	        	}
 	            
-	        else 
-	        {
-	            currentGrammar.add(line.trim());
-            }
-		}
+	        	else 
+	        	{
+	            	currentGrammar.add(line.trim());
+            	}
+			}
 	
 	    if (!currentGrammar.isEmpty()) 
 	    {

@@ -109,34 +109,6 @@ private static Map<String, List<String>> parseGrammar(List<String> grammarLines)
     return grammar;
 }
 
-private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k) {
-    for (String nonTerminal : grammar.keySet())
-	    {
-        for (String production : grammar.get(nonTerminal)) 
-	{
-            if (production.length() == 2)
-	    {
-                String left = String.valueOf(production.charAt(0));
-                String right = String.valueOf(production.charAt(1));
-
-                if (dp[i][k].contains(left) && dp[k + 1][j].contains(right)) 
-		{
-                    dp[i][j].add(nonTerminal);
-                }
-            }
-        }
-
-        // Handle epsilon productions during recursion
-        for (String production : grammar.get(nonTerminal)) 
-	{
-            if (production.equals("#"))
-	    {
-                dp[i][j].add(nonTerminal);
-            }
-        }
-    }
-}
-
     private static boolean cykAlgorithm(Map<String, List<String>> grammar, String inputString) 
     {
         int n = inputString.length();
@@ -171,59 +143,65 @@ private static void addNonTerminals(Map<String, List<String>> grammar, Set<Strin
 
     private static Set<String>[][] initializeDPTable(Map<String, List<String>> grammar, String inputString) 
 	{
-    int n = inputString.length();
-    Set<String>[][] dp = new HashSet[n][n];
-
-    for (int i = 0; i < n; i++)
-	    {
-        dp[i][i] = new HashSet<>();
-        String symbol = String.valueOf(inputString.charAt(i));
-
-        for (String nonTerminal : grammar.keySet())
-		{
-            for (String production : grammar.get(nonTerminal))
+	    int n = inputString.length();
+	    Set<String>[][] dp = new HashSet[n][n];
+	
+	    	for (int i = 0; i < n; i++)
 		    {
-                if (production.equals(symbol)) 
-		{
-                    dp[i][i].add(nonTerminal);
+	        dp[i][i] = new HashSet<>();
+	        String symbol = String.valueOf(inputString.charAt(i));
+	
+	        for (String nonTerminal : grammar.keySet())
+			{
+	            for (String production : grammar.get(nonTerminal))
+			    {
+	                if (production.equals(symbol)) 
+	                {
+	                    dp[i][i].add(nonTerminal);
+	                }
+	            }
+	        }
+	
+	        // Handle epsilon productions for single characters
+	        for (String nonTerminal : grammar.keySet())
+			{
+	            if (grammar.get(nonTerminal).contains("#"))
+	            {
+	                dp[i][i].add(nonTerminal);
+	            }
+	        }
+	    }
+	
+	    return dp;
+	}
+
+    private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k)
+    {
+        for (String nonTerminal : grammar.keySet())
+        {
+            for (String production : grammar.get(nonTerminal)) 
+            {
+                if (production.length() == 2)
+                {
+                    String left = String.valueOf(production.charAt(0));
+                    String right = String.valueOf(production.charAt(1));
+
+                    if (dp[i][k].contains(left) && dp[k + 1][j].contains(right)) 
+                    {
+                        dp[i][j].add(nonTerminal);
+                    }
+                }
+            }
+
+            // Handle epsilon productions during recursion
+            for (String production : grammar.get(nonTerminal)) 
+            {
+                if (production.equals("#"))
+                {
+                    dp[i][j].add(nonTerminal);
                 }
             }
         }
-
-        // Handle epsilon productions for single characters
-        for (String nonTerminal : grammar.keySet())
-		{
-            if (grammar.get(nonTerminal).contains("#"))
-	    {
-                dp[i][i].add(nonTerminal);
-            }
-        }
-    }
-
-    return dp;
-}
-
-	private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k) 
-	{
-        for (String nonTerminal : grammar.keySet()) 
-    	{
-			for (String production : grammar.get(nonTerminal)) 
-        	{
-                if (production.length() == 2) 
-        		{
-		            String left = String.valueOf(production.charAt(0));
-		        	String right = String.valueOf(production.charAt(1));
-
-                		if (dp[i][k].contains(left) && dp[k + 1][j].contains(right))
-                    	{
-                		dp[i][j].add(nonTerminal);
-                        
-                        // Debugging addition
-		                // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
-                		}
-        		}
-    		}
-		}
     }
 
     private static void printDPTable(Set<String>[][] dp, int n)

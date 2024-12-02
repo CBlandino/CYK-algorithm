@@ -1,9 +1,18 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * The CYK class implements CYK algorithm for parsing
+ * context-free grammars and determining if a given string
+ * is in a CFG in CNF. 
+ */
 public class CYK
 {
 
+	/**
+	 * Main method to execute the CYK algorithm on grammars and
+	 * input strings read from the file
+	 */
 	public static void main(String[] args) 
 	{
 	    try 
@@ -31,7 +40,15 @@ public class CYK
 	    }
 	}
 
-
+	/**
+	 * Reads multiple grammars from a file. Each grammar is separated
+	 * by a blank space. The last line of each grammar specifies the 
+	 * last string.
+	 * 
+	 * @param filePath the path to the input file.
+	 * @return a list of grammar, with each one represented by a string
+	 * @throws IOException if an error occurs while reading the file.
+	 */
 	private static List<List<String>> readMultipleGrammarsFromFile(String filePath) throws IOException 
    	{
 		BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -66,7 +83,12 @@ public class CYK
 	    return grammars;
 	}
 
-
+	/**
+	 * Parses a grammar from a list of strings into a map representation.
+	 * 
+	 * @param grammarLines a list of strings representing grammar rules.
+	 * @return a map where keys are non-terminals, and values are lists of productions.
+	 */
 	private static Map<String, List<String>> parseGrammar(List<String> grammarLines) 
 	{
 		Map<String, List<String>> grammar = new HashMap<>();
@@ -87,6 +109,14 @@ public class CYK
 	    return grammar;
 	}
 
+	/**
+	 * Implements the CYK algorithm to determine if the input string is 
+	 * accepted by the given grammar.
+	 * 
+	 * @param grammar a map representation of the grammar
+	 * @param inputString the input string to check.
+	 * @return true if the string is accepted by the grammar; false otherwise
+	 */
     private static boolean cykAlgorithm(Map<String, List<String>> grammar, String inputString) 
     {
         int n = inputString.length();
@@ -119,6 +149,13 @@ public class CYK
 	    return dp[0][n - 1].contains("S");
 	}
 
+    /**
+     * Initializes the DP table for the CYK algorithm with single character products.
+     * 
+     * @param grammar the grammar used for initialization.
+     * @param inputString the input string to parse.
+     * @return a 2D array representing the DP table.
+     */
 	private static Set<String>[][] initializeDPTable(Map<String, List<String>> grammar, String inputString)
 	{
 		int n = inputString.length();
@@ -140,6 +177,14 @@ public class CYK
 	    return dp;
 	}
 
+	/**
+	 * Adds non-terminals to the DP table based on the given grammar and indices.
+	 * @param grammar the grammar used for the algorithm
+	 * @param dp the DP table
+	 * @param i the starting index
+	 * @param j the ending index
+	 * @param k the partition index. 
+	 */
 	private static void addNonTerminals(Map<String, List<String>> grammar, Set<String>[][] dp, int i, int j, int k) 
 	{
         for (String nonTerminal : grammar.keySet()) 
@@ -163,6 +208,12 @@ public class CYK
 		}
     }
 
+	/**
+	 * Prints the DP table for debugging purposes.
+	 * 
+	 * @param dp the DP table 
+	 * @param n the size of the table. 
+	 */
     private static void printDPTable(Set<String>[][] dp, int n)
     {
         for (int i = 0; i < n; i++) 

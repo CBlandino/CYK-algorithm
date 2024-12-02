@@ -3,3 +3,9 @@ A -> BA | a
 B -> CC | b
 C -> AB | a
 baaba
+
+S -> AB | BC
+A -> BA | a
+B -> CC | b
+C -> AB | a
+baba

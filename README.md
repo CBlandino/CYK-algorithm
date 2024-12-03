@@ -17,6 +17,10 @@ Download the ZIP file and extract it to a folder.
 Ensure input.txt is in the src folder.
 
 **Compile and Run:**
+We personally used eclipse which automatically compiles and runs the program
+
+
+**Alternatives:**
 Open a terminal, navigate to the src folder, and run:
 
 javac CYK.java

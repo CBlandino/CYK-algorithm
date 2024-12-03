@@ -10,17 +10,17 @@ This CYK program will be able to read context-free grammar from a file and gener
 
 ### **How to run the program:**
 
-**Download and Extract**
+**Download and Extract:**
 Download the ZIP file and extract it to a folder.
 
-**Set Up Input File**
+**Set Up Input File:**
 Ensure input.txt is in the src folder.
 
-**Compile and Run**
+**Compile and Run:**
 Open a terminal, navigate to the src folder, and run:
 
 javac CYK.java
 java CYK
 
-**View Results**
+**View Results:**
 The output will display the parsed grammar, DP table, and whether the input string is accepted. It will produce the table output. Be sure to NOT use any non-terminals longer than length 1 such as 'Za' or 'R1'

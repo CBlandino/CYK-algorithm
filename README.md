@@ -7,6 +7,7 @@ This program is a CYK algorithm to determine whether a given string is in a CFG 
 ### **What does it do?**
 This CYK program will be able to read context-free grammar from a file and generate the corresponding parse table for a given input string. 
 
+
 ### **How to run the program:**
 
 **Download and Extract**

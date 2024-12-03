@@ -20,6 +20,7 @@ Ensure input.txt is in the src folder.
 Open a terminal, navigate to the src folder, and run:
 
 javac CYK.java
+
 java CYK
 
 **View Results:**

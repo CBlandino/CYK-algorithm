@@ -22,12 +22,14 @@ public class CYK
 
 	        for (List<String> grammarLines : grammars)
 	        {
+				// The last line of each grammar block is the input string.
 	            String inputString = grammarLines.remove(grammarLines.size() - 1); 
 	            Map<String, List<String>> grammar = parseGrammar(grammarLines);
 
 	            System.out.println("Parsed Grammar: " + grammar); 
 	            System.out.println("Input String: " + inputString);
 
+				// Run the CYK algorithm and print whether the string is accepted.
 	            boolean result = cykAlgorithm(grammar, inputString);
 	            System.out.println("String \"" + inputString + "\" is " + (result ? "accepted" : "not accepted") + " by the grammar.");
 	            System.out.println();
@@ -58,8 +60,10 @@ public class CYK
 	
 		    while ((line = reader.readLine()) != null) 
 		    {
+				// Blank lines separate different grammars in the input file.
 	            if (line.trim().isEmpty()) 
 				{
+					// Add the current grammar to the list and reset for the next one.
 		            if (!currentGrammar.isEmpty())
 		            {
 	                    grammars.add(new ArrayList<>(currentGrammar));
@@ -95,14 +99,17 @@ public class CYK
 	
 		for (String rule : grammarLines)
 		{
+			// Split each grammar rule into the non-terminal and its productions.
 	        String[] parts = rule.split("->");
 	    	String nonTerminal = parts[0].trim();
 	    	String[] productions = parts[1].trim().split("\\|");
-	
+
+			// Initialize the list for the non-terminal if it doesn't exist.
         	grammar.putIfAbsent(nonTerminal, new ArrayList<>());
 	
 	        for (String production : productions) 
 	    	{
+				// Add each production to the list for the non-terminal.
 	    		grammar.get(nonTerminal).add(production.trim());
         	}
 		}
@@ -120,6 +127,8 @@ public class CYK
     private static boolean cykAlgorithm(Map<String, List<String>> grammar, String inputString) 
     {
         int n = inputString.length();
+		
+		// Edge case: Empty input strings cannot be accepted.
     	if (n == 0) return false; 
 
     	Set<String>[][] dp = initializeDPTable(grammar, inputString);
@@ -160,7 +169,8 @@ public class CYK
 	{
 		int n = inputString.length();
 		Set<String>[][] dp = new HashSet[n][n];
-	
+
+		// Fill the diagonal of the DP table with non-terminals producing each character.
 		for (int i = 0; i < n; i++)
 		{
 	        dp[i][i] = new HashSet<>();
@@ -168,6 +178,7 @@ public class CYK
 	
 	        for (String nonTerminal : grammar.keySet()) 
 	    	{
+				// Check if the current symbol can be derived by a non-terminal.
 	    		if (grammar.get(nonTerminal).contains(symbol)) 
         		{
 		            dp[i][i].add(nonTerminal);
@@ -196,13 +207,14 @@ public class CYK
 		            String left = String.valueOf(production.charAt(0));
 		        	String right = String.valueOf(production.charAt(1));
 
-                		if (dp[i][k].contains(left) && dp[k + 1][j].contains(right))
-                    	{
-                		dp[i][j].add(nonTerminal);
+					// If the left and right non-terminals match the partitions, add the non-terminal.
+                	if (dp[i][k].contains(left) && dp[k + 1][j].contains(right))
+                	{
+            		dp[i][j].add(nonTerminal);
                         
-                        // Debugging addition
-		                // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
-                		}
+                    // Debugging addition
+		            // System.out.println("Added " + nonTerminal + " to DP[" + i + "][" + j + "]");
+            		}
         		}
     		}
 		}

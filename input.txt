@@ -1,11 +1,305 @@
-S -> AB | BC
-A -> BA | a
-B -> CC | b
-C -> AB | a
-baaba
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+()
 
-S -> AB | BC
-A -> BA | a
-B -> CC | b
-C -> AB | a
-baba
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+()()()
+
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+(()()())
+
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+(())())
+
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+(
+
+S0 -> SS | ZR | LR | E
+S -> SS | ZR | LR 
+L -> (
+R -> )
+Z -> LS
+)
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+c
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+cc
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+ccc
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+ab
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+bc
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+bcc
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+ac
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+abc
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+a
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+b
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+cab
+
+S -> VX | ZX | YC | c | WY | XY
+A -> VX | ZX | YC | c
+B -> WY | XY | YC | c
+C -> YC | c
+Z -> a
+X -> b 
+Y -> c
+V -> ZA
+W -> XB
+aab
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+a
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+b
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+#
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+aa
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+bb
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+a#
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+b#
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+aa##bb
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+#ab
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+##
+
+S0 -> VS | ZX | YX | a | b | V | XY | # | E
+S -> VS | ZX | YX | a | b | V | XY | #
+X -> ZX | YX | a | b
+R -> XW | XR | YX | ZX | YX | a | b | #
+Y -> #
+Z -> a 
+Y -> b
+X -> XR
+W -> YX 
+V -> XY
+ZX
